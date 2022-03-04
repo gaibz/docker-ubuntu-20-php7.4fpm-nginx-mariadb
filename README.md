@@ -5,18 +5,19 @@ This is just a base image for a project that require
 - Ubuntu 
 - php7.4-fpm
 - nginx
+- mysql
 
 Personally for my own use case 
 
-Github Repo : https://github.com/gaibz/docker-ubuntu20-php7.4fpm-nginx
+Github Repo : https://github.com/gaibz/docker-ubuntu-20-php7.4fpm-nginx-mariadb
 
-Docker Repo : https://hub.docker.com/r/gaibz/ubuntu20-php7.4-nginx
+Docker Repo : https://hub.docker.com/repository/docker/gaibz/ubuntu20-php7.4-nginx-mariadb
 
 # Setup & Build 
 
 ## Tag
 ```
-gaibz/ubuntu20-php7.4-nginx:latest
+gaibz/docker-ubuntu-20-php7.4fpm-nginx-mariadb:latest
 ```
 
 ## Nginx Server Config File
@@ -26,7 +27,7 @@ gaibz/ubuntu20-php7.4-nginx:latest
 ```
 
 
-## PHP Version : 7.4 (with default ubuntu repo)
+## PHP Version : 7.4 (with default ubuntu repo) Config File
 
 default php-fpm is listen on 127.0.0.1:9000
 
@@ -39,6 +40,13 @@ fpm ini
 /etc/php/7.4/fpm/php.ini
 ```
 
+## MariaDB / MySQL Config File
+
+there is so much reason why I prefer Mariadb over Mysql. So let me be my self;
+
+```
+/etc/mariadb.conf.d/50-server.cnf
+```
 
 ## app directory
 
@@ -49,5 +57,6 @@ fpm ini
 ## Exposed Port
 
 ```
-80/tcp
+80/tcp (Nginx)
+3306/tcp (MariaDB/MySQl)
 ```

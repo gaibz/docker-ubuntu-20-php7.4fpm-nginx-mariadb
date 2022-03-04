@@ -12,7 +12,7 @@ RUN mkdir -p /var/www/app
 RUN apt update --fix-missing
 RUN  DEBIAN_FRONTEND=noninteractive
 RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && echo Asia/Jakarta > /etc/timezone
-RUN apt install git zip unzip curl gnupg2 ca-certificates lsb-release libicu-dev supervisor nginx -y
+RUN apt install git zip unzip curl gnupg2 ca-certificates lsb-release libicu-dev supervisor nginx mariadb-server -y
 
 # Install php7.4-fpm
 # Since the repo is supported on ubuntu 20
@@ -35,12 +35,17 @@ COPY ./php/php.ini /etc/php/7.4/fpm/php.ini
 COPY ./php/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 COPY ./nginx/server.conf /etc/nginx/sites-enabled/default.conf
 COPY ./supervisor/config.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./mysql/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Starter file
 COPY ./php/index.php /var/www/app/index.php
 
 
+# Expose nginx
 EXPOSE 80
+
+# Expose Mariadb
+EXPOSE 3306
 
 # Let supervisord start nginx & php-fpm
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
